@@ -1,4 +1,4 @@
-Terminal Helper
+# Terminal Helper
 
 A simple C utility built to automate and simplify terminal usage.
 
@@ -8,6 +8,8 @@ This project serves two main goals:
 
 1. **Practical Tooling:** A lightweight helper for my day-to-day workflow in the terminal.
 2. **Learning Lab:** My personal space for studying pure C and moving away from high-level languages to understand systems programming better.
+
+So basically, I'm re-creating the history tool, as I found out too late it exists :0 
 
 ## Usage
 
