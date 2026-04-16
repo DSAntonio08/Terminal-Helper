@@ -20,6 +20,7 @@ int current_found = 0;
 bool search = false;
 int wantsHelp = true;
 
+int history_remade(int argumentCounter, char *argumentVector[]);
 int searchCommand(int argc, char *argv[], int index);
 void usageHelp(bool behelpful);
 
@@ -27,9 +28,16 @@ void usageHelp(bool behelpful);
 ///@param argv -> argument vector (what we are searching for) 
 int main(int argc, char * argv[])
 {
-  int opt;
+  history_remade(argc, argv);
+  return 0;
+}
 
-  while((opt = getopt(argc,argv, ":sm:h")) != -1)
+
+int history_remade(int argumentCounter, char *argumentVector[])
+{
+    int opt;
+
+  while((opt = getopt(argumentCounter,argumentVector, ":sm:h")) != -1)
   {
     switch (opt) {
       case 's':
@@ -69,10 +77,12 @@ int main(int argc, char * argv[])
 
   usageHelp(wantsHelp);
 
-  if(search){searchCommand(argc, argv, optind);}
+  if(search){searchCommand(argumentCounter, argumentVector, optind);}
   
   return 0;
 }
+
+
 
 int searchCommand(int argc, char *argv[], int index) {
     // Check if we have a keyword at the index getopt left us
@@ -105,7 +115,7 @@ int searchCommand(int argc, char *argv[], int index) {
 
     // C has no garbage collector
     fclose(file_pointer);
-    return 0;
+
 }
 
 void usageHelp(bool behelpful) {
