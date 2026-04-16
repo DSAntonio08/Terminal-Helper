@@ -1,40 +1,48 @@
-# 🛠️ Terminal Helper - Flag Reference
+🛠️ Terminal Helper - Flag Reference
 
-This tool helps you navigate your bash history efficiently. Use the flags below to filter and limit your search results.
+This tool searches your `~/.bash_history` file for previously used commands.
 
 ## Available Flags
 
-| Flag | Name   | Description                                                      | Requirement                  |
-|------| -------| -----------------------------------------------------------------|------------------------------|
-| `-s` | **Search** | Triggers the search engine to look through your `.bash_history`. | Requires a **keyword** argument. |
-| `-m` |**Matches** | Sets a limit on how many search results are displayed.           | Requires a **numeric** value.    |
+| Flag   | Long Name   | Description                                                      | Requirement                               |
+|--------|-------------|------------------------------------------------------------------|-------------------------------------------|
+| `-s`     | **Search**      | Enables searching through your `.bash_history` file                | Optional (automatically enabled with `-m`)  |
+| `-m`     | **Matches**     | Sets the maximum number of results to display                    | Required: a number (e.g. `-m10` or `-sm10`)   |
+| `-h`     | **Help**        | Displays this help message                                       |                                           |
 
----
-
-## 💡 Usage Examples
+## Usage Examples
 
 ### 1. Basic Search
-Search for every time you used `gcc`:
 ```bash
 ./terminal-helper -s gcc
 ```
 
-### 2. Limited Search
-Search for the last 5 times you used `ls`:
+###  2. Search with Limit
+Recommended ways:
 ```bash
-./terminal-helper -s -m 5 ls
+Bash./terminal-helper -sm10 gcc          # Short form (recommended)
+./terminal-helper -s -m 10 gcc       # Clear and explicit
+./terminal-helper -m 10 -s gcc
 ```
 
-### 3. Combined Flags (Short-hand)
-You can combine the flags, but remember that the keyword must come last:
+### 3. Lazy Mode (without -s)
+Since -m automatically enables search, you can skip the -s flag:
 ```bash
-./terminal-helper -sm 10 ssh
+./terminal-helper -m 20 python
+./terminal-helper -m 1 gcc
 ```
 
----
+### 4. Show Help
+```bash
+./terminal-helper -h
+```
 
 ## Important Notes
-* **Flag Order:** If you use `-m`, it must be followed immediately by a number.
-* **Default Limit:** If `-m` is not provided, the helper defaults to finding **128** matches.
-* **Keyword:** The search keyword should always be the final argument in your command.
+
+The **order** of arguments **matters**:
+The search keyword (e.g. gcc, ls, cd) must always be the **last** argument.
+When using combined flags, write -sm10 or -sm 10. 
+
+Default limit is 128 matches if -m is not used.
+
 
