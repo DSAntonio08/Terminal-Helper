@@ -1,5 +1,8 @@
 # Compiled binary
-terminal_helper
+terminal-helper
+
+# Information for myself
+format-specifiers.md
 
 # Prerequisites
 *.d

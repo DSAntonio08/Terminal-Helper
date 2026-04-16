@@ -1,4 +1,3 @@
-```markdown
 # Terminal Helper
 
 A simple C utility built to automate and simplify terminal usage.
@@ -26,4 +25,3 @@ Search for a specific keyword in your history:
 Anyone is welcome to jump in! Whether you've found a bug, a memory leak, or just have a suggestion on how to make the code cleaner or more efficient, feel free to open a Pull Request or start a discussion. I'm always looking to improve the logic and learn from others.
 
 Happy coding! :)
-```
