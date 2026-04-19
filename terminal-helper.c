@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h> // for flags
 #include <stdbool.h>
+#include <termios.h> // provides terminal interface for POSIX 
 
 // return type:
 // 1 -> User Error
@@ -20,9 +21,15 @@ int current_found = 0;
 bool search = false;
 int wantsHelp = true;
 
+struct termios original;
+
 int history_remade(int argumentCounter, char *argumentVector[]);
 int searchCommand(int argc, char *argv[], int index);
 void usageHelp(bool behelpful);
+char *storeMatch(char *buffer);
+// need to switch to raw mode to "read keys"
+void enableRawMode();
+void disableRawMode();
 
 ///@param argc -> argument counter (how many arguments)
 ///@param argv -> argument vector (what we are searching for) 
@@ -104,13 +111,20 @@ int searchCommand(int argc, char *argv[], int index) {
         return 2;
     }
 
+    char *arrayofMatches[MATCH_LIMIT];
     char buffer[BUFFER_SIZE];
+
     while (fgets(buffer, BUFFER_SIZE, file_pointer)) {
         if (strstr(buffer, keyword)) {
             printf( "%s", buffer);
+            arrayofMatches[current_found] = storeMatch(buffer);
             current_found++;
             if (current_found >= num_of_matches) break;
         }
+    }
+    for(int i = 0; i < current_found; i++)
+    {
+      free(arrayofMatches[i]);
     }
 
     // C has no garbage collector
@@ -136,4 +150,34 @@ void usageHelp(bool behelpful) {
                "  ./terminal-helper -sm 10 ls\n"
                "\n");
     }
+}
+
+char *storeMatch(char *buffer)
+{
+  // +1 for hidden "end of string" character
+  int sizeofcommand = (strlen(buffer) + 1);
+  char *foundCommand = malloc(sizeofcommand);
+  if(foundCommand == NULL)
+    return NULL;
+  // stringcopy(destination, source)
+  strcpy(foundCommand, buffer); 
+  return foundCommand;
+}
+
+void enableRawMode()
+{
+  struct termios orignal_copy;
+  // get original config first
+  // 0 = stdin
+  tcgettart(0, &original);
+  orignal_copy = original;
+  // turn of these local flags
+  t.c_lflag &= ~(ICANON | ECHO);
+  tcsettart(0, TSCANOW, &orignal_copy);
+  
+}
+
+void disableRawMode()
+{
+  tcsettart(0, TSCNOW, &original);
 }
